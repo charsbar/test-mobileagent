@@ -178,7 +178,7 @@ __END__
 
 =head1 NAME
 
-Test::MobileAgent::NonMobile
+Test::MobileAgent::Nonmobile
 
 =head1 SEE ALSO
 
