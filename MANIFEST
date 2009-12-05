@@ -1,0 +1,13 @@
+02_docomo.t
+Changes
+lib/Test/MobileAgent.pm
+lib/Test/MobileAgent/Base.pm
+lib/Test/MobileAgent/Docomo.pm
+lib/Test/MobileAgent/Jphone.pm
+Makefile.PL
+MANIFEST			This list of files
+README
+t/00_load.t
+t/10_docomo.t
+t/99_pod.t
+t/99_podcoverage.t
