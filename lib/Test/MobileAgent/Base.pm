@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use List::Util 'first';
 
-sub _modify_headers { return @_ }
+sub _modify_headers { shift; return @_ }
 
 sub env {
   my ($class, $type, %extra_headers) = @_;
