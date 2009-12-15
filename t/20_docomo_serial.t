@@ -15,7 +15,6 @@ use HTTP::MobileAgent;
     _card_id       => $card_id,
   );
   my $ua = HTTP::MobileAgent->new;
-  warn $ua->user_agent;
   is $ua->serial_number => $serial;
   is $ua->card_id       => $card_id;
 }
