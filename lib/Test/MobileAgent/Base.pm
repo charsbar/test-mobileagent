@@ -4,28 +4,39 @@ use strict;
 use warnings;
 use List::Util 'first';
 
-sub _default_headers {}
+sub _modify_headers { return @_ }
 
 sub env {
   my ($class, $type, %extra_headers) = @_;
 
   my $ua;
-  my @list = $class->list;
-  if ($type) {
-    $ua = first { /\Q$type/i } @list;
+  if ($type and index($type, '/') >= $[) {
+    # it looks like a full user agent.
+    $ua = $type;
   }
-  unless ($ua) {
+  else {
+    # looking for a candidate from the list
+    my @list = $class->list;
+    $type = qr/\Q$type/ unless ref $type eq 'Regexp';
+
+    $ua = first { /$type/i } @list;
+
     $ua ||= $list[-1];
   }
 
-  return (
+  my %headers = $class->_modify_headers(
     HTTP_USER_AGENT => $ua,
-    _fix_headers($class->_default_headers($ua)),
-    _fix_headers(%extra_headers),
+    _normalize_headers(%extra_headers),
   );
+
+  # remove private headers
+  foreach my $header (keys %headers) {
+    delete $headers{$header} if substr($header, 0, 1) eq '_';
+  }
+  return %headers;
 }
 
-sub _fix_headers {
+sub _normalize_headers {
   my %headers = @_;
 
   my %new_headers;

@@ -4,8 +4,6 @@ use strict;
 use warnings;
 use base 'Test::MobileAgent::Base';
 
-sub _default_headers {}  # TODO
-
 # this list is borrowed from HTTP::MobileAgent's t/03_j_phone.t
 sub _list {q(
 J-PHONE/1.0

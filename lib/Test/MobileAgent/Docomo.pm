@@ -4,7 +4,43 @@ use strict;
 use warnings;
 use base 'Test::MobileAgent::Base';
 
-sub _default_headers { (x_dcmguid => 'DCMGUID') }
+sub _modify_headers {
+  my ($class, %headers) = @_;
+
+  $headers{HTTP_X_DCMGUID} ||= 'DCMGUID';
+
+  my $serial  = delete $headers{_SERIAL_NUMBER} || '';
+
+  if ($serial) {
+    my $padding = '1234567890' x 2;
+    my $ua = $headers{HTTP_USER_AGENT};
+    my ($main, $extra) = split / /, $ua, 2;
+    if ($extra and substr($extra, 0, 1) ne '(') {
+      # looks like foma
+      $serial = substr("$serial$padding", 0, 15);
+      my $card_id = delete $headers{_CARD_ID} || $padding;
+
+      $extra =~ s/;ser\w{15}/;ser$serial/;
+      $extra =~ s/;icc\w{20}/;icc$card_id/;
+      unless ($extra =~ /;ser/) {
+        $extra =~ s/(c\d+)/$1;ser${serial};icc${card_id}/;
+      }
+      $ENV{HTTP_USER_AGENT} = "$main $extra";
+    }
+    else {
+      $serial = substr("$serial$padding", 0, 11);
+
+      $main =~ s|/ser\w{11}|/ser$serial|;
+      unless ($main =~ m|/ser\w{11}|) {
+        $main .= "/ser$serial";
+      }
+      $headers{HTTP_USER_AGENT} = $main;
+      $headers{HTTP_USER_AGENT} .= " $extra" if $extra;
+    }
+  }
+
+  return %headers;
+}
 
 # this list is borrowed from HTTP::MobileAgent's t/02_docomo.t
 sub _list {q(
