@@ -1,4 +1,3 @@
-02_docomo.t
 Changes
 lib/Test/MobileAgent.pm
 lib/Test/MobileAgent/Airh.pm
@@ -19,7 +18,6 @@ t/04_ezweb.t
 t/06_nonmobile.t
 t/07_airh.t
 t/09_vodafone.t
-t/10_docomo.t
 t/10_softbank.t
 t/99_pod.t
 t/99_podcoverage.t
