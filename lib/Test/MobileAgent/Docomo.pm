@@ -25,7 +25,7 @@ sub _modify_headers {
       unless ($extra =~ /;ser/) {
         $extra =~ s/(c\d+)/$1;ser${serial};icc${card_id}/;
       }
-      $ENV{HTTP_USER_AGENT} = "$main $extra";
+      $headers{HTTP_USER_AGENT} = "$main $extra";
     }
     else {
       $serial = substr("$serial$padding", 0, 11);
