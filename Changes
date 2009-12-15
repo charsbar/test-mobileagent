@@ -1,6 +1,8 @@
 Revision history for Test-MobileAgent
 
-0.02 to be released
+0.02 2009/12/16
+  - added docomo serial number support
+  - fixed user agent detection
   - fixed a pod
 
 0.01 2009/12/05
