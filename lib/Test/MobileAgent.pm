@@ -47,7 +47,7 @@ sub _find_vendor {
   if ($agent =~ /^[a-z]+$/) {
     return (ucfirst($agent), '');
   }
-  elsif ($agent =~ /^\[a-z]+\./) {
+  elsif ($agent =~ /^[a-z]+\./) {
     my ($vendor, $type) = split /\./, $agent;
     $vendor = ucfirst $vendor;
     return ($vendor, $type);
