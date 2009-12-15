@@ -32,7 +32,7 @@ sub _fix_headers {
   foreach my $header (keys %headers) {
     my $new_header = uc $header;
        $new_header =~ tr/-/_/;
-       $new_header = "HTTP_$new_header" if $new_header =~ /^X\_/;
+       $new_header = "HTTP_$new_header" if $new_header =~ /^X_/;
     $new_headers{$new_header} = $headers{$header};
   }
   return %new_headers;
