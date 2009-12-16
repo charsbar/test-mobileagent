@@ -7,7 +7,8 @@ use base 'Test::MobileAgent::Base';
 sub _modify_headers {
   my ($class, %headers) = @_;
 
-  $headers{HTTP_X_DCMGUID} ||= 'DCMGUID';
+  # should be able to be empty to test guid-related behavior
+  $headers{HTTP_X_DCMGUID} = 'DCMGUID' unless defined $headers{HTTP_X_DCMGUID};
 
   my $serial  = delete $headers{_SERIAL_NUMBER} || '';
 
