@@ -32,7 +32,12 @@ sub test_mobile_agent_headers {
   my %env = test_mobile_agent_env(@_);
 
   require HTTP::Headers::Fast;
-  HTTP::Headers::Fast->new(%env);
+  my $headers = HTTP::Headers::Fast->new;
+  foreach my $name (keys %env) {
+    (my $short_name = $name) =~ s/^HTTP[-_]//;
+    $headers->header($short_name => $env{$name});
+  }
+  $headers;
 }
 
 sub test_mobile_agent_list {

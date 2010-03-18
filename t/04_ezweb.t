@@ -20,47 +20,64 @@ my @Tests = (
       '6.2.0.7.3.129 (GUI)','SN31','MMP/2.0', 1, undef, undef, 1 ],
 );
 
-for (@Tests) {
-    my($ua, @data) = @$_;
+my $has_plack = eval "require Plack::Request; 1";
 
-    local %ENV;
-    test_mobile_agent($ua);
-    my $agent = HTTP::MobileAgent->new;
-    isa_ok $agent, 'HTTP::MobileAgent';
-    isa_ok $agent, 'HTTP::MobileAgent::EZweb';
-    is $agent->name, 'UP.Browser';
-    ok !$agent->is_docomo && !$agent->is_j_phone && !$agent->is_vodafone && $agent->is_ezweb;
-    is $agent->user_agent, $ua,        "ua is $ua";
+our @callbacks = (
+    sub {
+        local %ENV;
+        test_mobile_agent(@_);
+        HTTP::MobileAgent->new;
+    },
+    sub {
+        my $headers = test_mobile_agent_headers(@_);
+        HTTP::MobileAgent->new($headers);
+    },
+    $has_plack ? sub {
+        my %env = test_mobile_agent_env(@_);
+        my $r = Plack::Request->new(\%env);
+        HTTP::MobileAgent->new($r->headers);
+    } : (),
+);
 
-    is $agent->version, $data[0];
-    is $agent->device_id, $data[1];
-    is $agent->server, $data[2];
-    is $agent->xhtml_compliant, $data[3];
-    is $agent->comment, $data[4];
-    ok $agent->is_wap1 if $data[5];
-    ok $agent->is_wap2 if $data[6];
+for my $cb (@callbacks) {
+    for (@Tests) {
+        my($ua, @data) = @$_;
 
-    if ($ua eq 'UP.Browser/3.04-TST4 UP.Link/3.4.5.6' 
-        or $ua eq 'KDDI-KCU1 UP.Browser/6.2.0.5.1 (GUI) MMP/2.0'){
-        ok $agent->is_tuka;
-    } else {
-        ok !$agent->is_tuka;
+        my $agent = $cb->($ua);
+        isa_ok $agent, 'HTTP::MobileAgent';
+        isa_ok $agent, 'HTTP::MobileAgent::EZweb';
+        is $agent->name, 'UP.Browser';
+        ok !$agent->is_docomo && !$agent->is_j_phone && !$agent->is_vodafone && $agent->is_ezweb;
+        is $agent->user_agent, $ua, "ua is $ua";
+
+        is $agent->version, $data[0];
+        is $agent->device_id, $data[1];
+        is $agent->server, $data[2];
+        is $agent->xhtml_compliant, $data[3];
+        is $agent->comment, $data[4];
+        ok $agent->is_wap1 if $data[5];
+        ok $agent->is_wap2 if $data[6];
+
+        if ($ua eq 'UP.Browser/3.04-TST4 UP.Link/3.4.5.6' 
+            or $ua eq 'KDDI-KCU1 UP.Browser/6.2.0.5.1 (GUI) MMP/2.0'){
+            ok $agent->is_tuka;
+        } else {
+            ok !$agent->is_tuka;
+        }
+
+        if ($ua eq 'KDDI-SN31 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0'){
+            ok $agent->is_win;
+        } else {
+            ok !$agent->is_win;
+        }
     }
 
-    if ($ua eq 'KDDI-SN31 UP.Browser/6.2.0.7.3.129 (GUI) MMP/2.0'){
-        ok $agent->is_win;
-    } else {
-        ok !$agent->is_win;
+    for (test_mobile_agent_list('ezweb')) {
+        my $agent = $cb->($_);
+        isa_ok $agent, 'HTTP::MobileAgent', "$_";
+        is $agent->name, 'UP.Browser';
+        ok !$agent->is_docomo && !$agent->is_j_phone && !$agent->is_vodafone && $agent->is_ezweb;
     }
-}
-
-for (test_mobile_agent_list('ezweb')) {
-    local %ENV;
-    test_mobile_agent($_);
-    my $agent = HTTP::MobileAgent->new;
-    isa_ok $agent, 'HTTP::MobileAgent', "$_";
-    is $agent->name, 'UP.Browser';
-    ok !$agent->is_docomo && !$agent->is_j_phone && !$agent->is_vodafone && $agent->is_ezweb;
 }
 
 done_testing;

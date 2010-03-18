@@ -42,48 +42,62 @@ my @Tests = (
     [ "DoCoMo/2.0 P07A3(c500;TB;W24H15)", '2.0', undef, 'P07A3', 500, 1, 'P', 'FOMA', { is_gps => 1, browser_version => '2.0' }, 1 ],
 );
 
-for (@Tests) {
-    my($ua, @data) = @$_;
+my $has_plack = eval "require Plack::Request; 1";
 
-    local %ENV;
-    test_mobile_agent($ua);
-    my $agent = HTTP::MobileAgent->new;
-    isa_ok $agent, 'HTTP::MobileAgent';
-    isa_ok $agent, 'HTTP::MobileAgent::DoCoMo';
-    ok $agent->is_docomo && ! $agent->is_j_phone && !$agent->is_vodafone && ! $agent->is_ezweb;
-    is $agent->name, 'DoCoMo';
-    is $agent->user_agent, $ua,                "ua is $ua";
-    is $agent->version, $data[0],        "version";
-    is $agent->html_version, $data[1],        "HTML version";
-    is $agent->model, $data[2],                "model";
-    is $agent->cache_size, $data[3],        "cache size";
-    is $agent->is_foma, $data[4],        "is_foma";
-    is $agent->vendor, $data[5],        "vendor";
-    is $agent->series, $data[6],        "series";
-    is $agent->xhtml_compliant, $data[8], "xhtml compliant $ua";
-    if ($data[7]) {
-        is $agent->$_(), $data[7]->{$_},"testing $_" for keys %{$data[7]};
+our @callbacks = (
+    sub {
+        local %ENV;
+        test_mobile_agent(@_);
+        HTTP::MobileAgent->new;
+    },
+    sub {
+        my $headers = test_mobile_agent_headers(@_);
+        HTTP::MobileAgent->new($headers);
+    },
+    $has_plack ? sub {
+        my %env = test_mobile_agent_env(@_);
+        my $r = Plack::Request->new(\%env);
+        HTTP::MobileAgent->new($r->headers);
+    } : (),
+);
+
+for my $cb (@callbacks) {
+    for (@Tests) {
+        my($ua, @data) = @$_;
+
+        my $agent = $cb->($ua);
+        isa_ok $agent, 'HTTP::MobileAgent';
+        isa_ok $agent, 'HTTP::MobileAgent::DoCoMo';
+        ok $agent->is_docomo && ! $agent->is_j_phone && !$agent->is_vodafone && ! $agent->is_ezweb;
+        is $agent->name, 'DoCoMo';
+        is $agent->user_agent, $ua, "ua is $ua";
+        is $agent->version, $data[0], "version";
+        is $agent->html_version, $data[1], "HTML version";
+        is $agent->model, $data[2], "model";
+        is $agent->cache_size, $data[3], "cache size";
+        is $agent->is_foma, $data[4], "is_foma";
+        is $agent->vendor, $data[5], "vendor";
+        is $agent->series, $data[6], "series";
+        is $agent->xhtml_compliant, $data[8], "xhtml compliant $ua";
+        if ($data[7]) {
+            is $agent->$_(), $data[7]->{$_},"testing $_" for keys %{$data[7]};
+        }
+        is $agent->carrier, 'I' , "carrier is I";
+        is $agent->carrier_longname, 'DoCoMo' ,  "carrier longname is DoCoMo";
     }
-    is $agent->carrier, 'I' , "carrier is I";
-    is $agent->carrier_longname, 'DoCoMo' ,  "carrier longname is DoCoMo";
 
-}
+    {
+        # SH905i is XHTML Compliant.
+        my $agent = $cb->('DoCoMo/2.0 SH905i(c100;TB;W24H12)');
+        is $agent->xhtml_compliant, 1;
+    }
 
-{
-    # SH905i is XHTML Compliant.
-    local %ENV;
-    test_mobile_agent('DoCoMo/2.0 SH905i(c100;TB;W24H12)');
-    my $agent = HTTP::MobileAgent->new;
-    is $agent->xhtml_compliant, 1;
-}
-
-for (test_mobile_agent_list('docomo')) {
-    local %ENV;
-    test_mobile_agent($_);
-    my $agent = HTTP::MobileAgent->new;
-    isa_ok $agent, 'HTTP::MobileAgent', "$_";
-    is $agent->name, 'DoCoMo';
-    ok $agent->is_docomo && ! $agent->is_j_phone && ! $agent->is_ezweb;
+    for (test_mobile_agent_list('docomo')) {
+        my $agent = $cb->($_);
+        isa_ok $agent, 'HTTP::MobileAgent', "$_";
+        is $agent->name, 'DoCoMo';
+        ok $agent->is_docomo && ! $agent->is_j_phone && ! $agent->is_ezweb;
+    }
 }
 
 done_testing;
