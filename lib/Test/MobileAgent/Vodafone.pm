@@ -33,7 +33,7 @@ Vodafone/1.0/V703SHf/SHJ001 Browser/UP.Browser/7.0.2.1 Profile/MIDP-2.0 Configur
 Vodafone/1.0/V703SH/SHJ001 Browser/UP.Browser/7.0.2.1 Profile/MIDP-2.0 Configuration/CLDC-1.1 Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0
 Vodafone/1.0/V703N/NJ001 Browser/UP.Browser/7.0.2.1.307 Profile/MIDP-2.0 Configuration/CLDC-1.1Ext-J-Profile/JSCL-1.2.2 Ext-V-Profile/VSCL-2.0.0
 MOT-C980/80.2F.2E. MIB/2.2.1 Profile/MIDP-2.0 Configuration/CLDC-1.1
-Vodafone/1.0/V702NK2/NKJ001Series60/2.6 Nokia6680/4.04.28 Profile/MIDP-2.0 Configuration/CLDC-1.1
+Vodafone/1.0/V702NK2/NKJ001 Series60/2.6 Nokia6680/4.04.28 Profile/MIDP-2.0 Configuration/CLDC-1.1
 Vodafone/1.0/V702NK/NKJ001 Series60/2.6 Nokia6630/2.39.148 Profile/MIDP-2.0 Configuration/CLDC-1.1
 )}
 
