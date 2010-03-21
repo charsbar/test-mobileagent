@@ -2,7 +2,7 @@ package Test::MobileAgent::Jphone;
 
 use strict;
 use warnings;
-use base 'Test::MobileAgent::Base';
+use base 'Test::MobileAgent::Softbank';
 
 # this list is borrowed from HTTP::MobileAgent's t/03_j_phone.t
 sub _list {q(
@@ -69,7 +69,7 @@ J-PHONE/4.0/J-T51/SNJTSA1082745 TS/1.00 Profile/MIDP-1.0 Configuration/CLDC-1.0 
 J-PHONE/4.0/J-T51/SNJTSA3001961 TS/1.00 Profile/MIDP-1.0 Configuration/CLDC-1.0 Ext-Profile/JSCL-1.1.0
 J-PHONE/5.0/V801SA
 J-Phone/5.0/J-SH03 (compatible; Mozilla 4.0; MSIE 5.5; YahooSeeker)
-J-PHONE/4.3/V604T TS/2.00 Profile/MIDP-1.0 Configuration/CLDC-1.0　Ext-Profile/JSCL-1.3.2
+J-PHONE/4.3/V604T TS/2.00 Profile/MIDP-1.0 Configuration/CLDC-1.0 Ext-Profile/JSCL-1.3.2
 J-PHONE/4.3/V604SH SH/0009aa Profile/MIDP-1.0 Configuration/CLDC-1.0 Ext-Profile/JSCL-1.3.2
 J-PHONE/4.3/V603T TS/2.00 Profile/MIDP-1.0 Configuration/CLDC-1.0 Ext-Profile/JSCL-1.3.2
 J-PHONE/4.3/V603SH SH/0007aa Profile/MIDP-1.0 Configuration/CLDC-1.0 Ext-Profile/JSCL-1.3.2

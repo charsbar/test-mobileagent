@@ -4,6 +4,15 @@ use strict;
 use warnings;
 use base 'Test::MobileAgent::Base';
 
+sub _modify_headers {
+  my ($class, %headers) = @_;
+
+  if (exists $headers{_USER_ID}) {
+    $headers{HTTP_X_UP_SUBNO} = delete $headers{_USER_ID};
+  }
+  return %headers;
+}
+
 # this list is borrowed from HTTP::MobileAgent's t/04_ezweb.t
 sub _list {q{
 KDDI-CA21 UP.Browser/6.0.6 (GUI) MMP/1.1

@@ -78,6 +78,15 @@ for my $cb (@callbacks) {
         is $agent->name, 'UP.Browser';
         ok !$agent->is_docomo && !$agent->is_j_phone && !$agent->is_vodafone && $agent->is_ezweb;
     }
+
+    for (qw{ezweb}) {
+        my $user_id = 'userid';
+
+        my $agent = $cb->($_,
+            _user_id => $user_id,
+        );
+        like $agent->user_id => qr/^$user_id/, 'correct user_id';
+    }
 }
 
 done_testing;

@@ -72,6 +72,18 @@ for my $cb (@callbacks) {
         ok !$agent->is_docomo && $agent->is_vodafone && !$agent->is_ezweb;
         ok $agent->is_type_3gc;
     }
+
+    for (qw{softbank}) {
+        my $user_id = 'userid';
+        my $serial  = 'serial';
+
+        my $agent = $cb->($_,
+            _user_id       => $user_id,
+            _serial_number => $serial,
+        );
+        like $agent->user_id => qr/^$user_id/, 'correct user_id';
+        like $agent->serial_number => qr/^$serial/, 'correct serial';
+    }
 }
 
 done_testing;
