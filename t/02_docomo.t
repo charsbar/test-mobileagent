@@ -98,6 +98,23 @@ for my $cb (@callbacks) {
         is $agent->name, 'DoCoMo';
         ok $agent->is_docomo && ! $agent->is_j_phone && ! $agent->is_ezweb;
     }
+
+    for (qw{docomo DoCoMo/1.0/SO503i/c10 docomo.N2001}) {
+        my $user_id = 'userid';
+        my $serial  = 'serial';
+        my $card_id = 'cardid';
+
+        my $agent = $cb->($_,
+            _user_id       => $user_id,
+            _serial_number => $serial,
+            _card_id       => $card_id,
+        );
+        like $agent->user_id => qr/^$user_id/, 'correct user_id';
+        like $agent->serial_number => qr/^$serial/,  'correct serial';
+        if ($agent->is_foma) {
+            like $agent->card_id => qr/^$card_id/, 'correct card id';
+        }
+    }
 }
 
 done_testing;

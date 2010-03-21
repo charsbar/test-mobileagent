@@ -7,10 +7,14 @@ use base 'Test::MobileAgent::Base';
 sub _modify_headers {
   my ($class, %headers) = @_;
 
+  if (exists $headers{_USER_ID}) {
+    $headers{HTTP_X_DCMGUID} = delete $headers{_USER_ID};
+  }
+
   # should be able to be empty to test guid-related behavior
   $headers{HTTP_X_DCMGUID} = 'DCMGUID' unless defined $headers{HTTP_X_DCMGUID};
 
-  my $serial  = delete $headers{_SERIAL_NUMBER} || '';
+  my $serial = delete $headers{_SERIAL_NUMBER} || '';
 
   if ($serial) {
     my $padding = '1234567890' x 2;
@@ -19,7 +23,8 @@ sub _modify_headers {
     if ($extra and substr($extra, 0, 1) ne '(') {
       # looks like foma
       $serial = substr("$serial$padding", 0, 15);
-      my $card_id = delete $headers{_CARD_ID} || $padding;
+      my $card_id = delete $headers{_CARD_ID} || '';
+      $card_id = substr("$card_id$padding;", 0, 20);
 
       $extra =~ s/;ser\w{15}/;ser$serial/;
       $extra =~ s/;icc\w{20}/;icc$card_id/;
@@ -33,6 +38,7 @@ sub _modify_headers {
 
       $main =~ s|/ser\w{11}|/ser$serial|;
       unless ($main =~ m|/ser\w{11}|) {
+        $main .= "/" unless $main =~ m|^[^/]+/[^/}+/[^/]+/.+|;
         $main .= "/ser$serial";
       }
       $headers{HTTP_USER_AGENT} = $main;
