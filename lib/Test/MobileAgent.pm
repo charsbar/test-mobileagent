@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use base 'Exporter';
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 our @EXPORT    = qw/test_mobile_agent/;
 our @EXPORT_OK = qw/test_mobile_agent_env
@@ -118,7 +118,7 @@ Test::MobileAgent - set environmental variables to mock HTTP::MobileAgent
 =head1 SYNOPSIS
 
     use Test::More;
-    use Test::MobileAgent;
+    use Test::MobileAgent ':all';
     use HTTP::MobileAgent;
 
     # Case 1: you can simply pass a vendor name in lower case.
@@ -176,11 +176,21 @@ This module helps to test applications that use L<HTTP::MobileAgent>. See the SY
 
 =head2 test_mobile_agent
 
+takes an agent name and an optional hash, and sets appropriate environmental variables like HTTP_USER_AGENT. This function is exported by default.
+
+If the optional hash has C<_user_id>, C<_serial_number>, or C<_card_id> as its keys, this function tries to set corresponding L<HTTP::MobileAgent> attributes if applicable.
+
 =head2 test_mobile_agent_env
+
+takes the same arguments as C<test_mobile_agent()> and returns a hash that can be used to update %ENV.
 
 =head2 test_mobile_agent_headers
 
+takes the same arguments as C<test_mobile_agent()> and returns a L<HTTP::Headers> compatible object.
+
 =head2 test_mobile_agent_list
+
+takes a carrier name, and returns a list of known agent names.
 
 =head1 TO DO
 

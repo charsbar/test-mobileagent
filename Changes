@@ -1,9 +1,10 @@
 Revision history for Test-MobileAgent
 
-0.03 to be released
+0.03 2010/03/22
   - docomo guid should be able to be empty
   - added more docomo/jphone/vodafone/softbank agents
   - fixed _headers which didn't contain proper headers
+  - added serial_number/card_id attributes support
 
 0.02 2009/12/16
   - added docomo serial number support
