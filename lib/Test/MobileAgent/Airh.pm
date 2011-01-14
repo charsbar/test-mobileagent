@@ -5,7 +5,8 @@ use warnings;
 use base 'Test::MobileAgent::Base';
 
 # this list is borrowed from HTTP::MobileAgent's t/07_airh.t
-sub _list {q(
+# last updated: Fri Jan 14 14:56:46 2011
+sub _list {q{
 Mozilla/3.0(DDIPOCKET;JRC/AH-J3001V,AH-J3002V/1.0/0100/c50)CNF/2.0
 Mozilla/3.0(DDIPOCKET;KYOCERA/AH-K3001V/1.4.1.67.000000/0.1/C100) Opera 7.0
 Mozilla/3.0(WILLCOM;KYOCERA/WX300K/1;1.0.2.8.000000/0.1/C100) Opera/7.0
@@ -16,7 +17,7 @@ Mozilla/3.0(WILLCOM;KES/WS009KE/2;1/1/C128) NetFront/3.3
 Mozilla/3.0(WILLCOM;KES/WS009KEplus/2;0001;1/1/C128) NetFront/3.3
 Mozilla/3.0(WILLCOM;KYOCERA/WX310K/2;1.2.14.17.000000/0.1/C100) Opera 7.0
 Mozilla/3.0(WILLCOM;KYOCERA/WX310K/2;1.2.3.16.000000/0.1/C100) Opera 7.0
-)}
+}}
 
 1;
 

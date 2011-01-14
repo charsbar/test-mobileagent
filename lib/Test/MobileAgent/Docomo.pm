@@ -50,7 +50,8 @@ sub _modify_headers {
 }
 
 # this list is borrowed from HTTP::MobileAgent's t/02_docomo.t
-sub _list {q(
+# last updated: Fri Jan 14 14:56:46 2011
+sub _list {q{
 DoCoMo/1.0/633S/c20
 DoCoMo/1.0/641P/c10
 DoCoMo/1.0/641S/c10
@@ -475,7 +476,7 @@ DoCoMo/2.0 F03B(c500;TB;W24H16)
 DoCoMo/2.0 P01B(c500;TB;W24H15)
 DoCoMo/2.0 N01B(c500;TB;W24H16)
 DoCoMo/2.0 N02B(c500;TB;W24H16)
-)}
+}}
 
 1;
 

@@ -14,6 +14,7 @@ sub _modify_headers {
 }
 
 # this list is borrowed from HTTP::MobileAgent's t/04_ezweb.t
+# last updated: Fri Jan 14 14:56:46 2011
 sub _list {q{
 KDDI-CA21 UP.Browser/6.0.6 (GUI) MMP/1.1
 KDDI-CA21 UP.Browser/6.0.7.1 (GUI) MMP/1.1

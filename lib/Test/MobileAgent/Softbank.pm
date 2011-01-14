@@ -32,7 +32,8 @@ sub _modify_headers {
 }
 
 # this list is borrowed from HTTP::MobileAgent's t/10_softbank.t
-sub _list {q(
+# last updated: Fri Jan 14 14:56:46 2011
+sub _list {q{
 SoftBank/1.0/910T/TJ001/SNXXXXXXXXX Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1
 SoftBank/1.0/910T/TJ001 Browser/NetFront/3.3 Profile/MIDP-2.0 Configuration/CLDC-1.1
 SoftBank/1.0/840P/PJP10 Browser/NetFront/3.4 Profile/MIDP-2.0 Configuration/CLDC-1.1
@@ -146,7 +147,7 @@ SoftBank/1.0/DM004SH/SHJ001 Browser/NetFront/3.5 Profile/MIDP-2.0 Configuration/
 SoftBank/1.0/DM003SH/SHJ001 Browser/NetFront/3.4 Profile/MIDP-2.0 Configuration/CLDC-1.1
 SoftBank/1.0/DM002SH/SHJ001 Browser/NetFront/3.4 Profile/MIDP-2.0 Configuration/CLDC-1.1
 SoftBank/1.0/DM001SH/SHJ001 Browser/NetFront/3.4 Profile/MIDP-2.0 Configuration/CLDC-1.1
-)}
+}}
 
 1;
 

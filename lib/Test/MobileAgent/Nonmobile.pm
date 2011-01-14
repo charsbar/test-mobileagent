@@ -5,6 +5,7 @@ use warnings;
 use base 'Test::MobileAgent::Base';
 
 # this list is borrowed from HTTP::MobileAgent's t/06_nonmobile.t
+# last updated: Fri Jan 14 14:56:46 2011
 sub _list {q{
 Mozilla/2.0 (compatible; Ask Jeeves)
 Mozilla/2.0 (compatible; MSIE 3.01; Windows 95)
@@ -170,6 +171,7 @@ Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0; Q312461; .NET CLR 1.0.3705)
 Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0; T312461)
 Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0; T312461; .NET CLR 1.0.3705)
 Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0; T312461; Hewle)
+Mozilla/4.0 (compatible; MSIE 5.5; Windows NT 5.0; T312461; Hewle
 }}
 
 1;

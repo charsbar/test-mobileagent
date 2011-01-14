@@ -5,7 +5,8 @@ use warnings;
 use base 'Test::MobileAgent::Softbank';
 
 # this list is borrowed from HTTP::MobileAgent's t/03_j_phone.t
-sub _list {q(
+# last updated: Fri Jan 14 14:56:46 2011
+sub _list {q{
 J-PHONE/1.0
 J-PHONE/2.0/J-DN02
 J-PHONE/2.0/J-P02
@@ -118,7 +119,7 @@ J-PHONE/3.0/J-NM01
 J-PHONE/3.0/J-D31
 J-PHONE/3.0/J-D07
 J-PHONE/3.0/V304T
-)}
+}}
 
 1;
 
