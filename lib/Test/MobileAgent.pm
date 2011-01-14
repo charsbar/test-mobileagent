@@ -178,6 +178,8 @@ This module helps to test applications that use L<HTTP::MobileAgent>. See the SY
 
 takes an agent name and an optional hash, and sets appropriate environmental variables like HTTP_USER_AGENT. This function is exported by default.
 
+Agent name should be 'docomo', 'ezweb', 'softbank', 'airh', "docomo.$model", "ezweb.$model", "softbank.$model", 'airh.$model' and just user agent string.
+
 If the optional hash has C<_user_id>, C<_serial_number>, or C<_card_id> as its keys, this function tries to set corresponding L<HTTP::MobileAgent> attributes if applicable.
 
 =head2 test_mobile_agent_env
