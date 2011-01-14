@@ -1,5 +1,8 @@
 Revision history for Test-MobileAgent
 
+0.04 2010/09/20
+  - nothing is changed; just to fix manifest mismatch
+
 0.03 2010/03/22
   - docomo guid should be able to be empty
   - added more docomo/jphone/vodafone/softbank agents
