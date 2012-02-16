@@ -1,5 +1,8 @@
 Revision history for Test-MobileAgent
 
+0.06 2012/02/17
+  - smartphone support (for HTTP::MobileAgent::Plugin::SmartPhone)
+
 0.05 2011/01/14
   - doc patch by tokuhirom++
 

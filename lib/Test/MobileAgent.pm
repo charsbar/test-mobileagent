@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use base 'Exporter';
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 our @EXPORT    = qw/test_mobile_agent/;
 our @EXPORT_OK = qw/test_mobile_agent_env
