@@ -7,3 +7,4 @@ Makefile$
 Makefile.old
 blib
 MANIFEST.SKIP
+MYMETA.*
