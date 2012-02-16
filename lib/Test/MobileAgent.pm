@@ -50,12 +50,25 @@ sub _find_vendor {
   my $agent = shift;
 
   if ($agent =~ /^[a-z]+$/) {
+    if ($agent =~ /^ip(?:hone|[oa]d)$/) {
+      $agent =~ tr/p/P/;
+      return ("Smartphone", "($agent;");
+    }
+    elsif ($agent eq 'android') {
+      return ("Smartphone", 'Android');
+    }
     return (ucfirst($agent), '');
   }
   elsif ($agent =~ /^[a-z]+\./) {
     my ($vendor, $type) = split /\./, $agent;
-    $vendor = ucfirst $vendor;
-    return ($vendor, $type);
+    if ($vendor =~ /^(ip(?:hone|[oa]d)|android)$/) {
+      $type = "$vendor.+$type";
+      return ("Smartphone", qr/$type/);
+    }
+    if ($type =~ /^iP(?:hone|[oa]d)$/i) {
+      $type = "($type;";
+    }
+    return (ucfirst $vendor, $type);
   }
   else {
     # do some guesswork
@@ -89,6 +102,12 @@ sub _find_vendor {
     }
     elsif ($agent =~ /^SoftBank/i) {
       return ('Softbank', $agent);
+    }
+    elsif ($agent =~ /\(iP(?:hone|[ao]d);/) {
+      return ('Smartphone', $agent);
+    }
+    elsif ($agent =~ /Android/) {
+      return ('Smartphone', $agent);
     }
     else {
       return ('Nonmobile', $agent);
@@ -168,6 +187,26 @@ Test::MobileAgent - set environmental variables to mock HTTP::MobileAgent
     my %env = test_mobile_agent_env('docomo.N503');
     my $req = Plack::Request->new({ %plack_env, %env });
 
+
+    # Smartphone support (see HTTP::MobileAgent::Plugin::SmartPhone)
+
+    use HTTP::MobileAgent::Plugin::SmartPhone;
+    {
+      local %ENV;
+      test_mobile_agent('smartphone');
+
+      my $ua = HTTP::MobileAgent->new;
+      ok $ua->is_smartphone;
+    }
+    {
+      local %ENV;
+      test_mobile_agent('iphone'); # or ipod/ipad/android
+
+      my $ua = HTTP::MobileAgent->new;
+      ok $ua->is_smartphone;
+      ok $ua->is_iphone;
+    }
+
 =head1 DESCRIPTION
 
 This module helps to test applications that use L<HTTP::MobileAgent>. See the SYNOPSIS for usage.
@@ -178,7 +217,7 @@ This module helps to test applications that use L<HTTP::MobileAgent>. See the SY
 
 takes an agent name and an optional hash, and sets appropriate environmental variables like HTTP_USER_AGENT. This function is exported by default.
 
-Agent name should be 'docomo', 'ezweb', 'softbank', 'airh', "docomo.$model", "ezweb.$model", "softbank.$model", 'airh.$model' and just user agent string.
+Agent name should be 'docomo', 'ezweb', 'softbank', 'airh', "docomo.$model", "ezweb.$model", "softbank.$model", 'airh.$model' and just user agent string. As of 0.06, you can also specify 'smartphone', 'iphone', 'ipod', 'ipad', and 'android' for L<HTTP::MobileAgent::Plugin::SmartPhone>.
 
 If the optional hash has C<_user_id>, C<_serial_number>, or C<_card_id> as its keys, this function tries to set corresponding L<HTTP::MobileAgent> attributes if applicable.
 
@@ -200,7 +239,7 @@ This can be a bit more powerful if you can pass something like an asset file of 
 
 =head1 SEE ALSO
 
-L<HTTP::MobileAgent>, L<Moxy>
+L<HTTP::MobileAgent>, L<HTTP::MobileAgent::Plugin::SmartPhone>, L<Moxy>
 
 =head1 REPOSITORY
 

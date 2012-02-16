@@ -6,6 +6,7 @@ lib/Test/MobileAgent/Docomo.pm
 lib/Test/MobileAgent/Ezweb.pm
 lib/Test/MobileAgent/Jphone.pm
 lib/Test/MobileAgent/Nonmobile.pm
+lib/Test/MobileAgent/Smartphone.pm
 lib/Test/MobileAgent/Softbank.pm
 lib/Test/MobileAgent/Vodafone.pm
 Makefile.PL
@@ -19,5 +20,6 @@ t/06_nonmobile.t
 t/07_airh.t
 t/09_vodafone.t
 t/10_softbank.t
+t/20_smartphone.t
 t/99_pod.t
 t/99_podcoverage.t
